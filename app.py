@@ -606,11 +606,14 @@ def send_email(jobs):
         """
 
         # Add job cards
+        # Add job cards
         for job in jobs:
-            safe_link = urllib.parse.quote(job['link'], safe='')
-            safe_title = urllib.parse.quote(job['title'], safe='')
-            safe_email = urllib.parse.quote(student_email, safe='')
+            safe_link = urllib.parse.quote_plus(job['link'])
+            safe_title = urllib.parse.quote_plus(job['title'])
+            safe_email = urllib.parse.quote_plus(student_email)
+
             tracking_link = f"{tracker_url}?email={safe_email}&job={safe_title}&link={safe_link}"
+
 
             html += f"""
             <div style="border:1px solid #ddd; border-radius:10px; padding:15px; background:#ffffff; margin-bottom:12px;">
