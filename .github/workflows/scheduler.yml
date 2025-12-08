@@ -1,8 +1,5 @@
 name: Kerala IT Park Job Scraper Automation
 
-permissions:
-  contents: write   # 🔥 Allow GitHub Actions to push CSV file
-
 on:
   schedule:
     - cron: '0 4 * * *'
@@ -15,8 +12,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}   # 🔥 Needed for push access
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -37,17 +32,3 @@ jobs:
           STUDENT_NAMES: ${{ secrets.STUDENT_NAMES }}
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
         run: python app.py
-
-      - name: Commit updated history file
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-
-          # 🔥 Add only if the file exists
-          if [ -f "previous_jobs.csv" ]; then
-            git add previous_jobs.csv
-            git commit -m "Update previous job history" || echo "Nothing to commit"
-            git push
-          else
-            echo "previous_jobs.csv not found"
-          fi
